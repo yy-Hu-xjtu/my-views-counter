@@ -6,15 +6,21 @@ on:
 jobs:
   release:
     name: GitHub Profile Views Counter Action
-    runs-on: ubuntu-latest  # 使用最新版本
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'UTC'  # 明确设置时区为UTC
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.INSIGHTS_TOKEN }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 18  # 升级Node.js版本
-      - uses: gayanvoice/github-profile-views-counter-action@master  # 使用最新版本
+          node-version: 18
+      - name: Clear cache to force regeneration
+        run: |
+          # 可选：清除缓存以确保重新生成正确数据
+          rm -rf ./cache || true
+      - uses: gayanvoice/github-profile-views-counter-action@master
         env:
           INSIGHTS_TOKEN: ${{ secrets.INSIGHTS_TOKEN }}
-          TZ: 'UTC+8'  # 明确设置时区
+          TZ: 'UTC'  # 再次确保Action使用时区
