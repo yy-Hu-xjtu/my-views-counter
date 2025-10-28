@@ -6,14 +6,15 @@ on:
 jobs:
   release:
     name: GitHub Profile Views Counter Action
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest  # 使用最新版本
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.INSIGHTS_TOKEN }}
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 14.17.0
-      - uses: gayanvoice/github-profile-views-counter-action@3.0.0
+          node-version: 18  # 升级Node.js版本
+      - uses: gayanvoice/github-profile-views-counter-action@master  # 使用最新版本
         env:
           INSIGHTS_TOKEN: ${{ secrets.INSIGHTS_TOKEN }}
+          TZ: 'UTC'  # 明确设置时区
